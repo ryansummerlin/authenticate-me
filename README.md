@@ -2,19 +2,31 @@ Authenticate Me Write Up
 
 Backend
 Used Sequelize to set up the backend database that will store user credentials
+
 Used Express to create the server and handle all routes
+
 Morgan middleware for logging info about requests and responses
+
 Only allow CORS (cross origin resource sharing) in development using the cors middleware because the react frontend will be served from a different server than the express server. CORS isn’t needed in production because all of the React and Express resources will come from the same origin
+
 Csurf middleware to prevent CSRF (cross site request forgery)
+
 Csurf will add a _csrf cookie that is HTTP only to any server response
+
 Also adds a method on all requests that will be set to another cookie (XSRF token). The XSRF token cookie value needs to be sent in the header of any request in all HTTP verbs besides GET
+
 The header is used to make sure the request comes from your site and not an unauthorized site
+
+
 Error handlers
+
 Resource not found
 Will catch any requests that don’t match any of the defined routes and create a server error with status code 404
+
 Sequelize error handler
 Will catch sequelize errors (that come from not conforming with the database specs) 
 Applies for validation errors
+
 Database constraints
 Id
 Not null, PK
@@ -29,12 +41,16 @@ createdAt
 Default value of now
 updatedAt
 Default value of now
+
 Model scopes
 Exclude sensitive information (hashedpassword) from the info that gets sent to the frontend
+
 Three scopes
+
 Default = just id and username
 currentUser = everything except hashedPassword
 loginUser = includes all fields, only used for authenticating password
+
 Backend Login Flow
 API login route will be hit with a request body holding a valid credential (either username or email) and password combination
 The API login handler will look for a User with the input credential in either the username or email columns
